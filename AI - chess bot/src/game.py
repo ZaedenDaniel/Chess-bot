@@ -15,7 +15,7 @@ class Game:
         else:
           color = (119,154,88)
 
-        rect = (col * SQSIZE, row * SQSIZE,SQSIZE,SQSIZE)
+        rect = (col * SQSIZE, row * SQSIZE, SQSIZE, SQSIZE)
 
         pygame.draw.rect(surface, color, rect)
 
@@ -28,4 +28,4 @@ class Game:
           img = pygame.image.load(piece.texture)
           img_center = col * SQSIZE + SQSIZE // 2, row * SQSIZE + SQSIZE // 2
           piece.texture_rect = img.get_rect(center = img_center)
-          surface.blit(img, piece.tecture_rect)
+          surface.blit(img, piece.texture_rect)
