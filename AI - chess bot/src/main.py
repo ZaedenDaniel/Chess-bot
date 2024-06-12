@@ -16,6 +16,8 @@ class Main:
     game = self.game
 
     while True:
+
+      
       game.show_bg(screen)
       game.show_pieces(screen)
        
