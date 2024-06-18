@@ -2,6 +2,7 @@ import pygame
 from const import *
 from board import Board
 from dragger import Dragger
+from move import Move
 class Game:
 
   def __init__(self):
@@ -43,5 +44,17 @@ class Game:
         color = "#C86464" if (move.final.row + move.final.col) % 2 == 0 else '#C84646'
         rect = (move.final.col * SQSIZE, move.final.row * SQSIZE, SQSIZE, SQSIZE)
         pygame.draw.rect(surface, color, rect)
+
+  def show_last_move(self, surface):
+    if self.board.last_move:
+      if isinstance(self.board.last_move, Move):
+        initial = self.board.last_move.initial
+        final = self.board.last_move.final
+
+      for pos in [initial, final]:
+        color = (244, 247, 116) if (pos.row + pos.col) %  2 == 0 else (172, 195, 51)
+        rect = (pos.col * SQSIZE, pos.row * SQSIZE, SQSIZE, SQSIZE)
+        pygame.draw.rect(surface, color, rect)
+
   def next_turn(self):
-    self.next_turn = 'black' if self.next_turn == 'white' else 'white'
+    self.next_player = 'black' if self.next_player == 'white' else 'white'

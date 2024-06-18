@@ -1,7 +1,7 @@
 import pygame
 import sys
 from const import *
-from game import *
+from game import Game
 from square import Square
 from move import Move
 from board import Board
@@ -22,6 +22,7 @@ class Main:
 
     while True:
       game.show_bg(screen)
+      game.show_last_move(screen)
       game.show_moves(screen)
       game.show_pieces(screen)
 
@@ -45,15 +46,17 @@ class Main:
               game.show_bg(screen)
               game.show_moves(screen)
               game.show_pieces(screen)
-          
+             
         #moving selected piece with the mouse
         elif event.type == pygame.MOUSEMOTION:
           if dragger.dragging:
             dragger.update_mouse(event.pos)
             game.show_bg(screen)
+            game.show_last_move(screen)
             game.show_moves(screen)
             game.show_pieces(screen)
             dragger.update_blit(screen)
+
         #releasing the piece at a given square
         elif event.type == pygame.MOUSEBUTTONUP:
           if dragger.dragging:
@@ -70,7 +73,10 @@ class Main:
               board.move(dragger.piece, move)
 
               game.show_bg(screen)
+              game.show_last_move(screen)
               game.show_pieces(screen)
+
+              game.next_turn()
           
           dragger.undrag_piece()
         
