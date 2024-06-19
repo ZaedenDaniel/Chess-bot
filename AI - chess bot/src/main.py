@@ -9,6 +9,7 @@ class Main:
 
   def __init__(self):
     pygame.init
+    pygame.mixer.init()
     self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Chess")
     self.game = Game()
@@ -25,6 +26,7 @@ class Main:
       game.show_last_move(screen)
       game.show_moves(screen)
       game.show_pieces(screen)
+      game.show_hover(screen)
 
       if dragger.dragging:
         dragger.update_blit(screen)
@@ -49,12 +51,18 @@ class Main:
              
         #moving selected piece with the mouse
         elif event.type == pygame.MOUSEMOTION:
+          motion_row = event.pos[1] // SQSIZE
+          motion_col = event.pos[0] // SQSIZE
+
+          game.set_hover(motion_row, motion_col)
+
           if dragger.dragging:
             dragger.update_mouse(event.pos)
             game.show_bg(screen)
             game.show_last_move(screen)
             game.show_moves(screen)
             game.show_pieces(screen)
+            game.show_hover(screen)
             dragger.update_blit(screen)
 
         #releasing the piece at a given square
@@ -70,7 +78,11 @@ class Main:
             move = Move(initial, final)
 
             if board.valid_move(dragger.piece, move):
+              capture = board.squares[released_row][released_col].has_piece()
+              
               board.move(dragger.piece, move)
+
+              game.sound_effect(capture)
 
               game.show_bg(screen)
               game.show_last_move(screen)
@@ -79,7 +91,19 @@ class Main:
               game.next_turn()
           
           dragger.undrag_piece()
+
+
+        elif event.type == pygame.KEYDOWN:
+
+          if event.key == pygame.K_c:
+            game.change_theme()
         
+          if event.key == pygame.K_r:
+            game.reset_game()
+            game = self.game
+            dragger = self.game.dragger
+            board = self.game.board
+
         #quit game
         elif event.type == pygame.QUIT:
           pygame.quit()

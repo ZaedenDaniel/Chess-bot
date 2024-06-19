@@ -21,7 +21,7 @@ class Board:
 
     piece.moved = True
     piece.clear_moves()
-    self.last_move = True
+    self.last_move = Move(initial, final)
 
   def valid_move(self, piece, move):
     return move in piece.moves
