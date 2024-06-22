@@ -41,12 +41,13 @@ class Main:
           #incase piece exists at the clicked square
           if board.squares[clicked_row][clicked_col].has_piece():
             piece = board.squares[clicked_row][clicked_col].piece
+            
             if piece.color == game.next_player:
-              board.calc_moves(piece, clicked_row, clicked_col)
+              board.calc_moves(piece, clicked_row, clicked_col, bool = True)
               dragger.save_initial(event.pos)
               dragger.drag_piece(piece)
               game.show_bg(screen)
-              game.show_moves(screen)
+              game.show_moves(screen) 
               game.show_pieces(screen)
              
         #moving selected piece with the mouse
@@ -108,6 +109,8 @@ class Main:
         elif event.type == pygame.QUIT:
           pygame.quit()
           sys.exit()
+
+
       pygame.display.update()
 
 main = Main()
